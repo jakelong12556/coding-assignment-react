@@ -7,6 +7,10 @@
     "test": "nx run-many --target=test --projects=server,client"
   },
   "dependencies": {
+    "@emotion/react": "^11.13.0",
+    "@emotion/styled": "^11.13.0",
+    "@mui/material": "^5.16.7",
+    "@mui/x-data-grid": "^7.12.1",
     "@nestjs/common": "9.2.1",
     "@nestjs/core": "9.2.1",
     "@nestjs/platform-express": "9.2.1",
@@ -29,6 +33,7 @@
     "@nrwl/react": "15.5.1",
     "@nrwl/web": "15.5.1",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.7",
+    "@svgr/cli": "^8.1.0",
     "@svgr/webpack": "^6.1.2",
     "@swc/core": "~1.2.143",
     "@swc/jest": "0.2.20",

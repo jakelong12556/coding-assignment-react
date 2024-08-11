@@ -1,2 +1,46 @@
 .tickets {
+
 }
+
+.new-ticket {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    min-height: 3rem;
+    font-family: Poppins, sans-serif;
+    background-color: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.25em;
+    padding: 0 1em;
+}
+
+.new-ticket:hover {
+    background-color: #d1d5db;
+}
+
+.table-header, .modal-header{
+    margin-bottom: 1em;
+    padding-bottom: 0.5em;
+    border-width: 0;
+    border-style: solid;
+    border-bottom-width: 1px;
+    border-color: rgba(209, 213, 219);
+}
+
+.table-header, .assignee, .assignee-cell{
+    display: flex;
+    align-items: center;
+}
+
+.assignee{
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    background-color: white;
+    border: none;
+}
+
+.bin:hover{
+    background-color: #d1d5db;
+}
+

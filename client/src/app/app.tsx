@@ -3,37 +3,75 @@ import { Routes, Route } from 'react-router-dom';
 import { Ticket, User } from '@acme/shared-models';
 
 import styles from './app.module.css';
-import Tickets from './tickets/tickets';
+import TicketTable from './tickets/tickets';
+import Sidebar from './sidebar/sidebar';
+import TicketDetails from './ticket-details/ticket-details';
+
+export interface TicketsProps { 
+  id: number;
+  description: string;
+  assigneeId: null | number;
+  assigneeName: null | User;
+  completed: boolean;
+}
+
 
 const App = () => {
-  const [tickets, setTickets] = useState([] as Ticket[]);
+  const [tickets, setTickets] = useState([] as TicketsProps[]);
   const [users, setUsers] = useState([] as User[]);
+  const [isRefresh, setIsRefresh] = useState(false);
 
-  // Very basic way to synchronize state with server.
-  // Feel free to use any state/fetch library you want (e.g. react-query, xstate, redux, etc.).
   useEffect(() => {
-    async function fetchTickets() {
-      const data = await fetch('/api/tickets').then();
-      setTickets(await data.json());
-    }
-
-    async function fetchUsers() {
-      const data = await fetch('/api/users').then();
-      setUsers(await data.json());
-    }
-
-    fetchTickets();
-    fetchUsers();
+    getTicketTableData();
   }, []);
+
+
+  async function getTicketTableData(){
+    setIsRefresh(true);
+    const tickets = await fetch('/api/tickets').then(res=> res.json());
+    const users = await fetch('/api/users').then(res=> res.json());
+    const data = DeserializeUserID(tickets, users);
+    setTickets(data);
+    setUsers(users);
+    setIsRefresh(false);
+  }
+
+  function DeserializeUserID(tickets: Ticket[], users: User[]): TicketsProps[] {
+    const res = tickets.map((ticket) => {
+      const user = users.find((u) => u.id === ticket.assigneeId);
+      return {
+        id: ticket.id,
+        description: ticket.description,
+        assigneeId: ticket.assigneeId,
+        assigneeName: user? user : null,
+        completed: ticket.completed,
+      };
+    });    
+    return res
+    
+  }  
+
+  const tableProps = {
+    tickets: tickets,
+    users: users,
+    refreshTable: getTicketTableData,
+    isRefresh: isRefresh
+  }
 
   return (
     <div className={styles['app']}>
-      <h1>Ticketing App</h1>
-      <Routes>
-        <Route path="/" element={<Tickets tickets={tickets} />} />
-        {/* Hint: Try `npx nx g component TicketDetails --project=client --no-export` to generate this component  */}
-        <Route path="/:id" element={<h2>Details Not Implemented</h2>} />
-      </Routes>
+      <div className={styles['app-wrapper']} data-test-id="app-wrapper">
+        <Sidebar></Sidebar>
+        <div className={styles['container']}>
+
+          <Routes>
+            <Route path="/" element={<TicketTable props={tableProps} />} />
+            <Route path="/:id" element={<TicketDetails />} />
+          </Routes>
+        </div>
+      </div>
+
+
     </div>
   );
 };

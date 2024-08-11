@@ -1,0 +1,35 @@
+.loader-detail{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%
+}
+
+.container{
+    display: grid;
+    -moz-column-gap: 25px;
+    column-gap: 25px;
+    grid-template-columns: 1fr 4fr;
+    height: 100%
+}
+
+.sidebar{
+    background-color: rgba(229, 231, 235);
+    padding: 1em;
+    border-radius: 0.25rem;
+}
+
+.header, .sidebar-header{
+    margin-bottom: 1rem;
+    padding-bottom: 0.5em;
+    border-width: 0;
+    border-style: solid;
+    border-bottom-width: 1px;
+    border-color: rgba(209, 213, 219);
+}
+
+.header, .header-title{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
